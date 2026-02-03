@@ -20,7 +20,18 @@ const registerUser = asyncHandler(async (req, res) => {
 
   console.log("email:", email);
 
- 
+  //m1: validation
+  // if(fullName === ""){
+  //     throw new ApiError(400, "Full name is required");
+  // }
+
+  //m2: validation
+  // if (
+  //     [fullName, email , username , password ].includes("")
+  // ) {
+  //     throw new ApiError(400, "All fields are required");
+  // }
+
   //m3: validation
   //step1 : take from frontend
   //step2
