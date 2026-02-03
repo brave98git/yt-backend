@@ -26,8 +26,9 @@ const uploadToCloudinary = async (localFilePath) => {
     return null;
   }
 };
+
 export { uploadToCloudinary };
 
-cloudinary.v2.uploader
-  .upload("sample.jpg")
-  .then((result) => console.log(result));
+// cloudinary.v2.uploader
+//   .upload("sample.jpg")
+//   .then((result) => console.log(result));
