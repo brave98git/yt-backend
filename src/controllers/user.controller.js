@@ -16,9 +16,7 @@ const registerUser = asyncHandler(async (req, res) => {
   //step8:  check for user creation
   //step9:  return res
 
-  const { fullName, email, username, password } = req.body;
-
-  console.log("email:", email);
+  
 
   //m1: validation
   // if(fullName === ""){
@@ -34,7 +32,10 @@ const registerUser = asyncHandler(async (req, res) => {
 
   //m3: validation
   //step1 : take from frontend
+  const { fullName, email, username, password } = req.body;
+  console.log("email:", email);
   //step2
+  
   if (
     [fullName, email, username, password].some(
       (field) => !field || field.trim() === ""
@@ -44,7 +45,7 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 
   //step3
-  const existedUser = User.findOne({
+  const existedUser = await User.findOne({
     $or: [{ username }, { email }],
   });
 
