@@ -1,9 +1,10 @@
 // require("dotenv").config({path: './env'});
 import dotenv from "dotenv";
+import connectDB from "./db/index.js";
 import { app } from "./app.js";
 
 dotenv.config({
-    path: './env'
+    path: './.env'
 });
 
 //1st Approach
@@ -30,7 +31,7 @@ const app = express();
 
 
 //2nd Approach A production based approach
-import {connectDB} from "./db/index.js";
+
 connectDB()
 .then(() => {
     app.on("error", (err) => {

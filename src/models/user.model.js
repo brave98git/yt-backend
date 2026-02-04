@@ -53,14 +53,37 @@ const userSchema = new Schema(
 
 
 //pass encryption
-userSchema.pre("save", async function (next) {
+// userSchema.pre("save", async function (next) {
+//   if (this.isModified("password")) {
+//     this.password = await bcrypt.hash(this.password, 10);
+//     next();
+//   } else {
+//     next();
+//   }
+// });
+
+//or 
+
+userSchema.pre("save", async function () {
+  // Only hash the password if it has been modified
   if (this.isModified("password")) {
-    this.password = await bcrypt.hash(this.password, 10);
-    next();
-  } else {
-    next();
+    try {
+      this.password = await bcrypt.hash(this.password, 10);
+    } catch (error) {
+      throw new Error("Password hashing failed: " + error.message);
+    }
   }
 });
+
+
+//or//not Working
+
+// userSchema.pre("save", async function (next) {
+//     if(!this.isModified("password")) return next();
+
+//     this.password = await bcrypt.hash(this.password, 10)
+//     next();
+// })
 
 
 //check password correctness
@@ -70,7 +93,8 @@ userSchema.methods.isPasswordCorrect = async function (password) {
 
 
 //generate access token
-userSchema.methods.generateAcceessToken = function () {
+
+userSchema.methods.generateAccessToken = function () {
   return jwt.sign(
     {
       //payload
@@ -81,12 +105,13 @@ userSchema.methods.generateAcceessToken = function () {
     },
     process.env.ACCESS_TOKEN_SECRET,
     {
-      expiresIn: "process.env.ACCESS_TOKEN_EXPIRY",
+      expiresIn: process.env.ACCESS_TOKEN_EXPIRY,
     }
   );
 };
 
 //generate refresh token
+
 userSchema.methods.generateRefreshToken = function () {
     return jwt.sign(
     {
@@ -95,7 +120,7 @@ userSchema.methods.generateRefreshToken = function () {
     },
     process.env.REFRESH_TOKEN_SECRET,
     {
-      expiresIn: "process.env.REFRESH_TOKEN_EXPIRY",
+      expiresIn: process.env.REFRESH_TOKEN_EXPIRY,
     }
   );
 };
