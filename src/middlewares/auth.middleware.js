@@ -6,7 +6,14 @@ import { User } from "../models/user.model.js";
 import { Video } from "../models/video.model.js";
 
 // Middleware to verify JWT and authenticate user
-export const verifyJWT = asyncHandler(async (req, _, next) => { //if res is absent in project grade we have to keep it _
+export const verifyJWT = asyncHandler(async (req, _, next) => { 
+  //if res is absent in project grade we have to keep it _
+  //1. Get token from Authorization header or cookies
+  //2. If token is missing, throw 401 error
+  //3. Verify token using jwt.verify()
+  //4. If token is invalid, throw 401 error
+  //5. Find user by ID from decoded token and attach user to request object
+  //6. Call next() to proceed to the next middleware or route handler
   try {
     const token =
       req.cookies?.accessToken ||
